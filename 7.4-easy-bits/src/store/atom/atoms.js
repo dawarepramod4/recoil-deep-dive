@@ -1,4 +1,5 @@
-import { atom, selector } from "recoil";
+import { atom, atomFamily, selector } from "recoil";
+import { TODOS } from "../../todos";
 //asynchronous data queries
 export const notificationAtom = atom({
     key: "notificationAtom",
@@ -22,5 +23,13 @@ export const totalNotificationSelector = selector({
             notificationNotCount.notifications +
             notificationNotCount.messaging
         );
+    },
+});
+
+//atom Family
+export const todosAtomFamily = atomFamily({
+    key: "todosAtomFamily",
+    default: (id) => {
+        return TODOS.find((todo) => todo.id === id);
     },
 });

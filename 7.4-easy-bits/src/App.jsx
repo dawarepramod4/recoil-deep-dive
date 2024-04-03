@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import { RecoilRoot, useRecoilValue, useRecoilState } from "recoil";
-import { notificationAtom, totalNotificationSelector } from "./store/atom/atoms";
+import { notificationAtom, todosAtomFamily, totalNotificationSelector } from "./store/atom/atoms";
 import axios from "axios";
 
 export default function App() {
     return (
         <RecoilRoot>
             <MainApp />
+            <Todo id={1} />
+            <Todo id={2} />
         </RecoilRoot>
     );
 }
 
+//asynchronous data queries
 function MainApp() {
     const [notificationNotCount, setNotificationCount] = useRecoilState(notificationAtom);
     const totalCount = useRecoilValue(totalNotificationSelector);
@@ -35,6 +38,17 @@ function MainApp() {
             <button>Notification {showCount(notificationNotCount.notifications)} </button>
             <button>Me {showCount(notificationNotCount.messaging)}</button>
             <button>TOtal {totalCount}</button>
+        </div>
+    );
+}
+
+//atom Family
+function Todo({ id }) {
+    const todo = useRecoilValue(todosAtomFamily(id));
+    return (
+        <div>
+            <h1>{todo.title}</h1>
+            <h2>{todo.description}</h2>
         </div>
     );
 }
