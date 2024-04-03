@@ -1,12 +1,6 @@
 import React from "react";
 import { RecoilRoot, useRecoilValue } from "recoil";
-import {
-    networkAtom,
-    jobsAtom,
-    notificationAtom,
-    meAtom,
-    totalNotificationSelector,
-} from "./store/atom/atoms";
+import { notificationAtom, totalNotificationSelector } from "./store/atom/atoms";
 
 export default function App() {
     return (
@@ -17,11 +11,8 @@ export default function App() {
 }
 
 function MainApp() {
-    const networkNotCount = useRecoilValue(networkAtom);
-    const jobsNotCount = useRecoilValue(jobsAtom);
     const notificationNotCount = useRecoilValue(notificationAtom);
-    const meNotCount = useRecoilValue(meAtom);
-    const totalNotification = useRecoilValue(totalNotificationSelector);
+    const totalCount = useRecoilValue(totalNotificationSelector);
 
     function showCount(value) {
         if (value == 0) return "";
@@ -30,11 +21,13 @@ function MainApp() {
     return (
         <div>
             <button>Home </button>
-            <button onClick={(e) => {}}>My Network {showCount(networkNotCount)}</button>
-            <button>Jobs {showCount(jobsNotCount)} </button>
-            <button>Notification{showCount(notificationNotCount)} </button>
-            <button>Me{showCount(meNotCount)}</button>
-            <button>TOtal{totalNotification}</button>
+            <button onClick={(e) => {}}>
+                My Network {showCount(notificationNotCount.network)}
+            </button>
+            <button>Jobs {showCount(notificationNotCount.jobs)} </button>
+            <button>Notification{showCount(notificationNotCount.notification)} </button>
+            <button>Me{showCount(notificationNotCount.me)}</button>
+            <button>TOtal{totalCount}</button>
         </div>
     );
 }
