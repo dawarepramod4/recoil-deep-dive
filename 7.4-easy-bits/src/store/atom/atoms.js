@@ -1,13 +1,14 @@
 import { atom, selector } from "recoil";
-
+//asynchronous data queries
 export const notificationAtom = atom({
     key: "notificationAtom",
-    default: {
-        network: 10,
-        jobs: 20,
-        notification: 100,
-        me: 0,
-    },
+    default: selector({
+        key: "notificationAtom/Default",
+        get: async () => {
+            const res = await fetch("https://sum-server.100xdevs.com/notifications");
+            return res.json();
+        },
+    }),
 });
 
 //selector
@@ -18,8 +19,8 @@ export const totalNotificationSelector = selector({
         return (
             notificationNotCount.network +
             notificationNotCount.jobs +
-            notificationNotCount.notification +
-            notificationNotCount.me
+            notificationNotCount.notifications +
+            notificationNotCount.messaging
         );
     },
 });
