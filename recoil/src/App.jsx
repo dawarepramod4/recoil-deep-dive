@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RecoilRoot, useRecoilValue, useRecoilState } from "recoil";
+import { RecoilRoot, useRecoilValue, useRecoilState, useRecoilValueLoadable } from "recoil";
 import { notificationAtom, todosAtomFamily, totalNotificationSelector } from "./store/atom/atoms";
 import axios from "axios";
 
@@ -48,11 +48,16 @@ function MainApp() {
 
 //atom Family
 function Todo({ id }) {
-    const todo = useRecoilValue(todosAtomFamily(id));
-    return (
-        <div>
-            <h1>{todo.title}</h1>
-            <h2>{todo.description}</h2>
-        </div>
-    );
+    // const todo = useRecoilValue(todosAtomFamily(id));
+    //to use the future i.e, loadable
+    const todo = useRecoilValueLoadable(todosAtomFamily(id));
+    if (todo.state === "loading") return <h1>Loading...</h1>;
+    if (todo.state === "hasValue")
+        return (
+            <div>
+                <h1>{todo.contents.title}</h1>
+                <h2>{todo.contents.description}</h2>
+            </div>
+        );
+    if (todo.state === "hasError") return <h1>Error</h1>;
 }
