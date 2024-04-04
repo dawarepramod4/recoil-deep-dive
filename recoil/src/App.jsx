@@ -9,6 +9,10 @@ export default function App() {
             <MainApp />
             <Todo id={1} />
             <Todo id={2} />
+            <Todo id={2} />
+            <Todo id={2} />
+            <Todo id={2} />
+            <Todo id={2} />
         </RecoilRoot>
     );
 }

@@ -1,5 +1,6 @@
-import { atom, atomFamily, selector } from "recoil";
+import { atom, atomFamily, selector, selectorFamily } from "recoil";
 import { TODOS } from "../../todos";
+import axios from "axios";
 //asynchronous data queries
 export const notificationAtom = atom({
     key: "notificationAtom",
@@ -29,7 +30,11 @@ export const totalNotificationSelector = selector({
 //atom Family
 export const todosAtomFamily = atomFamily({
     key: "todosAtomFamily",
-    default: (id) => {
-        return TODOS.find((todo) => todo.id === id);
-    },
+    default: selectorFamily({
+        key: "todosAtomFamily/Default",
+        get: (id) => async ({get}) => {
+            const res = await axios.get(`https://sum-server.100xdevs.com/todo?id=${id}`);
+            return res.data.todo;
+        },
+    }),
 });
